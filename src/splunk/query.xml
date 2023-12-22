@@ -1,0 +1,14 @@
+<form>
+	<!-- Your existing dashboard structure -->
+	<script type="text/javascript">
+		require(['jquery', 'splunkjs/mvc/simplexml/ready!'], function($) {
+		function applyPanelOptions() {
+		$('.single-value-panel').each(function() {
+		// Apply JavaScript-based options here, e.g., change CSS styles, add classes, etc.
+		$(this).css('color', 'blue'); // Example: changing text color
+		});
+		}
+		applyPanelOptions();
+		});
+	</script>
+</form>
