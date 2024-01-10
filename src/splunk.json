@@ -1,0 +1,58 @@
+{
+  "visualizations": {
+    "viz_1": {
+      "type": "viz.singlevalue",
+      "dataSources": {
+        "primary": "ds_1"
+      },
+      "options": {
+        "underLabel": "Percentage Over 10 Seconds",
+        "numberPrecision": 0,
+        "unit": "%",
+        "useColors": true,
+        "rangeColors": [
+          "0xDB5800",
+          "0xF2B827",
+          "0x1A7C11"
+        ],
+        "rangeValues": [
+          0,
+          20,
+          40,
+          60,
+          80,
+          100
+        ],
+        "showTrendIndicator": false,
+        "showSparkline": false,
+        "showRadial": true
+      }
+    }
+  },
+  "dataSources": {
+    "ds_1": {
+      "type": "ds.search",
+      "options": {
+        "query": "| sourcetype=x:log cf_app_name=some_app | eval over_10_seconds=if(DURATION > 10, 1, 0) | stats count as total_count, sum(over_10_seconds) as count_over_10 | eval percent_over_10=(count_over_10 / total_count) * 100 | fields percent_over_10",
+        "earliest": "-24h@h",
+        "latest": "now"
+      }
+    }
+  },
+  "layout": {
+    "type": "absolute",
+    "options": {
+      "width": "100%",
+      "height": "100%"
+    },
+    "structure": [
+      {
+        "item": "viz_1",
+        "width": 24,
+        "height": 12,
+        "x": 0,
+        "y": 0
+      }
+    ]
+  }
+}
