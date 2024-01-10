@@ -1,9 +1,9 @@
 {
   "visualizations": {
-    "viz_1": {
+    "percent_over_10_gauge": {
       "type": "viz.singlevalue",
       "dataSources": {
-        "primary": "ds_1"
+        "primary": "ds_percent_over_10"
       },
       "options": {
         "underLabel": "Percentage Over 10 Seconds",
@@ -27,13 +27,35 @@
         "showSparkline": false,
         "showRadial": true
       }
+    },
+    "count_over_10_display": {
+      "type": "viz.singlevalue",
+      "dataSources": {
+        "primary": "ds_count_over_10"
+      },
+      "options": {
+        "underLabel": "Count Over 10 Seconds",
+        "numberPrecision": 0,
+        "unit": "events",
+        "useColors": false,
+        "showTrendIndicator": false,
+        "showSparkline": false
+      }
     }
   },
   "dataSources": {
-    "ds_1": {
+    "ds_percent_over_10": {
       "type": "ds.search",
       "options": {
         "query": "| sourcetype=x:log cf_app_name=some_app | eval over_10_seconds=if(DURATION > 10, 1, 0) | stats count as total_count, sum(over_10_seconds) as count_over_10 | eval percent_over_10=(count_over_10 / total_count) * 100 | fields percent_over_10",
+        "earliest": "-24h@h",
+        "latest": "now"
+      }
+    },
+    "ds_count_over_10": {
+      "type": "ds.search",
+      "options": {
+        "query": "| sourcetype=x:log cf_app_name=some_app | eval over_10_seconds=if(DURATION > 10, 1, 0) | stats sum(over_10_seconds) as count_over_10 | fields count_over_10",
         "earliest": "-24h@h",
         "latest": "now"
       }
@@ -47,10 +69,17 @@
     },
     "structure": [
       {
-        "item": "viz_1",
+        "item": "percent_over_10_gauge",
         "width": 24,
         "height": 12,
         "x": 0,
+        "y": 0
+      },
+      {
+        "item": "count_over_10_display",
+        "width": 24,
+        "height": 12,
+        "x": 24,
         "y": 0
       }
     ]
