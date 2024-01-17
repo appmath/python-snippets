@@ -1,0 +1,43 @@
+import reactor.netty.http.client.HttpClient;
+import io.netty.handler.timeout.ReadTimeoutHandler;
+import io.netty.handler.timeout.WriteTimeoutHandler;
+import io.netty.channel.ChannelOption;
+import java.util.concurrent.TimeUnit;
+import reactor.core.publisher.Mono;
+
+// ...
+
+int timeout = 5000; // timeout in milliseconds
+
+HttpClient client = HttpClient.create()
+    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, timeout)
+    .doOnConnected(connection -> {
+        connection.addHandlerLast(new ReadTimeoutHandler(timeout, TimeUnit.MILLISECONDS));
+        connection.addHandlerLast(new WriteTimeoutHandler(timeout, TimeUnit.MILLISECONDS));
+    });
+
+client.get()
+    .uri("http://example.com")
+    .responseContent()
+    .aggregate()
+    .asString()
+    .doOnError(e -> logTimeout(e)) // Handle and log the error
+    .subscribe(
+        content -> System.out.println("Received response: " + content),
+        error -> System.err.println("Error occurred: " + error.getMessage())
+    );
+
+// ...
+
+private void logTimeout(Throwable e) {
+    if (e instanceof io.netty.handler.timeout.ReadTimeoutException) {
+        // Handle read timeout
+        System.err.println("Read Timeout occurred: " + e.getMessage());
+    } else if (e instanceof io.netty.handler.timeout.WriteTimeoutException) {
+        // Handle write timeout
+        System.err.println("Write Timeout occurred: " + e.getMessage());
+    } else {
+        // Other errors
+        System.err.println("Non-timeout error occurred: " + e.getMessage());
+    }
+}
