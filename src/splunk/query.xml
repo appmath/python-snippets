@@ -8,3 +8,13 @@ index=someindex sourcetype=somesourcetype
 		payload.http_status >= 500 AND payload.http_status < 600, "500-599"
 		)
 		| stats sum(count) as count by HTTP_Category
+<chart>
+
+<search>
+	<query>
+		<!-- Your SPL query here -->
+	</query>
+</search>
+<option name="charting.chart">bar</option>
+<option name="charting.seriesColors">["0x00FF00", "0xFFFF00", "0xFFA500", "0xFF0000"]</option>
+</chart>
