@@ -1,10 +1,11 @@
 <query>
 	index=someindex sourcetype=somesourcetype
-	| eval http_status_num = tonumber(payload.http_status)
-	| eval HTTP_Category = if(http_status_num &gt;= 200 AND http_status_num &lt; 300, "200-299",
-	if(http_status_num &gt;= 300 AND http_status_num &lt; 400, "300-399",
-	if(http_status_num &gt;= 400 AND http_status_num &lt; 500, "400-499",
-	if(http_status_num &gt;= 500 AND http_status_num &lt; 600, "500-599", "Other"))))
+	| eval HTTP_Category = case(
+	payload.http_status="200", "Status 200",
+	payload.http_status="201", "Status 201",
+	payload.http_status="404", "Status 404",
+	true(), "Other"
+	)
 	| stats count by HTTP_Category
 </query>
 
