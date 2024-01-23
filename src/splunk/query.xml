@@ -2,15 +2,11 @@
 	<search>
 		<query>
 			index=someindex sourcetype=somesourcetype
-			| eval http_status_num = tonumber(payload.http_status)
-			| eval HTTP_Category = case(
-			http_status_num &gt;= 200 AND http_status_num &lt; 300, "200-299",
-			http_status_num &gt;= 300 AND http_status_num &lt; 400, "300-399",
-			http_status_num &gt;= 400 AND http_status_num &lt; 500, "400-499",
-			http_status_num &gt;= 500 AND http_status_num &lt; 600, "500-599"
-			)
+			| eval HTTP_Category = if(payload.http_status &gt;= 200 AND payload.http_status &lt; 300, "200-299",
+			if(payload.http_status &gt;= 300 AND payload.http_status &lt; 400, "300-399",
+			if(payload.http_status &gt;= 400 AND payload.http_status &lt; 500, "400-499",
+			if(payload.http_status &gt;= 500 AND payload.http_status &lt; 600, "500-599", "Other"))))
 			| stats count by HTTP_Category
-			| rename HTTP_Category as "HTTP_STATUS"
 		</query>
 	</search>
 	<option name="charting.chart">bar</option>
