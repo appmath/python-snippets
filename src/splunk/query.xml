@@ -3,11 +3,12 @@
 		<query>
 			index=someindex sourcetype=somesourcetype
 			| stats count by payload.http_status
+			| eval http_status_num = tonumber(payload.http_status)
 			| eval HTTP_Category = case(
-			payload.http_status &gt;= 200 AND payload.http_status &lt; 300, "200-299",
-			payload.http_status &gt;= 300 AND payload.http_status &lt; 400, "300-399",
-			payload.http_status &gt;= 400 AND payload.http_status &lt; 500, "400-499",
-			payload.http_status &gt;= 500 AND payload.http_status &lt; 600, "500-599"
+			http_status_num &gt;= 200 AND http_status_num &lt; 300, "200-299",
+			http_status_num &gt;= 300 AND http_status_num &lt; 400, "300-399",
+			http_status_num &gt;= 400 AND http_status_num &lt; 500, "400-499",
+			http_status_num &gt;= 500 AND http_status_num &lt; 600, "500-599"
 			)
 			| stats sum(count) as count by HTTP_Category
 			| rename HTTP_Category as "HTTP_STATUS"
