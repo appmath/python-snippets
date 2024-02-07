@@ -1,0 +1,32 @@
+
+Copy code
+[credentials]
+API_KEY = YourAPIKeyHere
+SECRET_KEY = YourSecretKeyHere
+.gitignore:
+
+Copy code
+credentials.ini
+Python code (main.py):
+
+python
+Copy code
+from configparser import ConfigParser
+
+def load_credentials(filename='credentials.ini', section='credentials'):
+    parser = ConfigParser()
+    parser.read(filename)
+
+    credentials = {}
+    if parser.has_section(section):
+        items = parser.items(section)
+        for item in items:
+            credentials[item[0]] = item[1]
+    else:
+        raise Exception(f'{section} not found in the {filename} file')
+
+    return credentials
+
+# Usage
+credentials = load_credentials()
+print(credentials)
