@@ -1,39 +1,37 @@
-from configparser import ConfigParser
+import requests
+import os
+from datetime import datetime
+import json
 
+# Assuming you have the API's base URL
+base_url = "https://example.com/api/customers"
+some_id = "12345"  # Example some ID
 
-def get_config_value(filename='credentials.ini', section='default', key=None):
-    """
-    Fetches a single value or all values from a specified section in the INI file.
+# Use os.environ.get to safely get environment variables
+username = os.environ.get('API_USER')
+password = os.environ.get('API_PASS')
 
-    :param filename: The INI file to read from.
-    :param section: The section within the INI file.
-    :param key: The specific key to fetch from the section. If None, all key-value pairs are returned.
-    :return: A single value if key is specified, or a dictionary of key-value pairs if key is None.
-    """
-    parser = ConfigParser()
-    parser.read(filename)
+# Headers for the request
+headers = {
+    "Content-Type": "application/json"
+}
 
-    # Check if the section exists
-    if parser.has_section(section):
-        if key:
-            # Return the specific value for the key if it exists
-            if parser.has_option(section, key):
-                return parser.get(section, key)
-            else:
-                raise KeyError(f'Key {key} not found in section {section}')
-        else:
-            # Return all key-value pairs in the section
-            return {item[0]: item[1] for item in parser.items(section)}
-    else:
-        raise Exception(f'Section {section} not found in the {filename}')
+# Data you want to patch, converted to JSON
+# For example, updating the timestamp
+data = {
+    "timestamp": datetime.now().isoformat(),
+    # Add other fields you want to patch here
+}
 
+# Make the PATCH request
+response = requests.patch(f"{base_url}/{some_id}", headers=headers, data=json.dumps(data),
+                          auth=(username, password))
 
-# Usage examples:
+# Check the response
+if response.status_code == 200:
+    print("Successfully patched the customer info.")
+    print(response.json())  # Assuming the response contains JSON data
+else:
+    print(f"Failed to patch customer info. Status code: {response.status_code}")
+    print(response.text)  # To see the error message
 
-# Fetching a specific key (e.g., Okta password)
-okta_password = get_config_value(section='okta', key='API_OKTA_PASSWORD')
-print(okta_password)
-
-# Fetching all credentials from a section
-credentials = get_config_value(section='credentials')
-print(credentials)
