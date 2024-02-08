@@ -1,79 +1,76 @@
+############################################## csv_util.py
 import csv
-from icecream import ic
 
 
-def read_ids_in_batches(csv_file_path, batch_size):
+def read_all_ids(csv_file_path):
     """
-    Generator function that reads IDs from a CSV file and yields them in batches.
+    Reads all IDs from the specified column in a CSV file.
 
     Parameters:
     - csv_file_path: str, the path to the CSV file.
-    - batch_size: int, the number of IDs to yield in each batch.
+
+    Returns:
+    - ids: list of IDs read from the file.
     """
+    ids = []
     with open(csv_file_path, newline='', encoding='utf-8') as csvfile:
         csvreader = csv.reader(csvfile)
-        batch = []  # Initialize an empty list to hold the batched data
         for row in csvreader:
             if len(row) > 2:  # Assuming the ID is in the third column
-                batch.append(row[2])
-            if len(batch) == batch_size:
-                yield batch
-                batch = []
-        if batch:  # Yield any remaining IDs in the last batch
-            yield batch
+                ids.append(row[2])
+    return ids
 
 
-def write_results(output_file_path, results):
-    """
-    Writes the processing results to a CSV file.
-
-    Parameters:
-    - output_file_path: str, the path to the output CSV file.
-    - results: list of tuples, where each tuple contains (ID, 'Pass'/'Fail').
-    """
-    with open(output_file_path, mode='w', newline='', encoding='utf-8') as csvfile:
-        csvwriter = csv.writer(csvfile)
-        csvwriter.writerow(['ID', 'Result'])  # Writing the header
-        for result in results:
-            csvwriter.writerow(result)
-
-
-
-
-# Processing
-from csv_util import read_ids_in_batches, write_results
+##############################################  process_file.py
+from csv_util import read_all_ids, write_results
 from icecream import ic
 
 
 def process_service(id):
     """
-    Placeholder function to simulate processing an ID and determining pass/fail.
-    Returns a tuple (ID, 'Pass'/'Fail').
+    Simulates processing an ID. Replace this with your actual service call.
 
-    Replace this with the actual service call and error handling.
+    Parameters:
+    - id: The ID to process.
+
+    Returns:
+    - A tuple of (ID, 'Pass' or 'Fail').
     """
-    # Simulate a service call and error handling
-    # For demonstration, randomly pass/fail (replace with actual logic)
+    # Placeholder for service call logic
+    # Replace with actual logic to determine pass/fail
     from random import choice
-    result = choice(['Pass', 'Fail'])
-    return (id, result)
+    return (id, choice(['Pass', 'Fail']))
 
 
-def process():
-    input_csv = 'path/to/input.csv'
-    output_csv = 'path/to/output.csv'
-    batch_size = 100
-    all_results = []
+def process_ids_in_batches(ids, batch_size, output_csv):
+    """
+    Processes IDs in batches and writes the results to an output CSV file.
 
-    for batch in read_ids_in_batches(input_csv, batch_size):
+    Parameters:
+    - ids: list of IDs to process.
+    - batch_size: int, the number of IDs to process in each batch.
+    - output_csv: str, the path to the output CSV file.
+    """
+    results = []
+    for i in range(0, len(ids), batch_size):
+        batch = ids[i:i + batch_size]
         ic(batch)
         batch_results = [process_service(id) for id in batch]
-        all_results.extend(batch_results)
+        results.extend(batch_results)
 
-    write_results(output_csv, all_results)
+    write_results(output_csv, results)
     ic(f"Processing complete. Results written to {output_csv}")
 
 
-# Example usage
+# Assuming the utility function write_results is defined in csv_util.py as previously described
+
 if __name__ == "__main__":
-    process()
+    input_csv = 'path/to/input.csv'
+    output_csv = 'path/to/output.csv'
+    batch_size = 100
+
+    # Read all IDs from the input CSV
+    ids = read_all_ids(input_csv)
+
+    # Process these IDs in batches and write the results
+    process_ids_in_batches(ids, batch_size, output_csv)
