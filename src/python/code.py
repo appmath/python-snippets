@@ -1,37 +1,21 @@
-import requests
-import os
-from datetime import datetime
-import json
+users_list_resp, resp, err = await get_user()
 
-# Assuming you have the API's base URL
-base_url = "https://example.com/api/customers"
-some_id = "12345"  # Example some ID
-
-# Use os.environ.get to safely get environment variables
-username = os.environ.get('API_USER')
-password = os.environ.get('API_PASS')
-
-# Headers for the request
-headers = {
-    "Content-Type": "application/json"
-}
-
-# Data you want to patch, converted to JSON
-# For example, updating the timestamp
-data = {
-    "timestamp": datetime.now().isoformat(),
-    # Add other fields you want to patch here
-}
-
-# Make the PATCH request
-response = requests.patch(f"{base_url}/{some_id}", headers=headers, data=json.dumps(data),
-                          auth=(username, password))
-
-# Check the response
-if response.status_code == 200:
-    print("Successfully patched the customer info.")
-    print(response.json())  # Assuming the response contains JSON data
+# Check for errors first
+if err is not None:
+    print(f"Error occurred: {err}")
+    # Handle the error appropriately
 else:
-    print(f"Failed to patch customer info. Status code: {response.status_code}")
-    print(response.text)  # To see the error message
-
+    # Assuming resp has a status or similar attribute to indicate success
+    if resp.status == 200:  # Example, adjust based on actual attribute
+        # Check if users_list_resp is a list and not empty
+        if isinstance(users_list_resp, list) and len(users_list_resp) > 0:
+            user_id = users_list_resp[0].id
+            print(f"First user ID: {user_id}")
+        elif hasattr(users_list_resp, 'id'):  # It's a single user object
+            user_id = users_list_resp.id
+            print(f"User ID: {user_id}")
+        else:
+            print("Unexpected response format.")
+    else:
+        print(f"Failed to get user, response status: {resp.status}")
+        # Handle unsuccessful response appropriately
