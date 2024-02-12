@@ -1,34 +1,32 @@
-import random
-import string
+import time
 
 
-def generate_password(length=20):
-    if length < 4:
-        raise ValueError("Password length must be at least 4 characters to ensure complexity requirements.")
+class Timer:
+    def __init__(self):
+        self.start_time = None
+        self.end_time = None
 
-    # Define the character sets
-    special_chars = "!@#$%^&*()-_=+"
-    alphabet = string.ascii_letters  # Contains both lowercase and uppercase letters
-    digits = string.digits
+    def start(self):
+        """Start the timer."""
+        self.start_time = time.time()
+        self.end_time = None
+        print("Timer started.")
 
-    # Ensure the password contains at least one character from each category
-    password_chars = [
-        random.choice(special_chars),
-        random.choice(alphabet),
-        random.choice(digits),
-    ]
+    def stop(self):
+        """Stop the timer and report the elapsed time."""
+        if self.start_time is None:
+            print("Timer was not started.")
+            return None
 
-    # Fill the rest of the password length with a mix of all characters
-    all_chars = special_chars + alphabet + digits
-    password_chars.extend(random.choice(all_chars) for _ in range(length - len(password_chars)))
-
-    # Shuffle the list to ensure random distribution of characters
-    random.shuffle(password_chars)
-
-    # Join the list into a string to form the password
-    password = ''.join(password_chars)
-    return password
+        self.end_time = time.time()
+        elapsed_time = self.end_time - self.start_time
+        print(f"Timer stopped. Elapsed time: {elapsed_time:.2f} seconds.")
+        return elapsed_time
 
 
-# Generate a random password
-print(generate_password(20))
+# Example usage
+timer = Timer()
+timer.start()
+time.sleep(5)  # Simulate some operations or tasks taking 5 seconds
+elapsed_time = timer.stop()
+print(f"Total elapsed time: {elapsed_time:.2f} seconds.")
