@@ -1,46 +1,63 @@
+import asyncio
 from timeit import Timer
 from icecream import ic
 
 
-def time_function_and_return_value(func, *args, **kwargs):
+def time_function(func, *args, is_async=False, **kwargs):
     """
-    Times the execution of a function using timeit, logs the result with icecream,
-    and returns the function's execution time and its return value.
+    Times the execution of a function (sync or async) and logs the result with icecream.
+    Captures and returns the function's last return value.
 
     Parameters:
     - func: The function to be timed.
     - *args: Arguments to pass to the function.
+    - is_async: Specifies if the function is asynchronous.
     - **kwargs: Keyword arguments to pass to the function. Includes 'number' for timeit repetitions if needed.
 
     Returns:
-    - A tuple containing the execution time and the function's return value.
+    - A tuple containing the execution time and the function's last return value.
     """
-    # Extract the 'number' keyword argument for timeit, defaulting to 1 if not provided
     number = kwargs.pop('number', 1)
+    last_return_value = None
 
-    # Capture the function's return value by executing it once
-    # This execution is not timed to avoid affecting the return value with multiple executions
-    return_value = func(*args, **kwargs)
+    if is_async:
+        async def wrapper():
+            return await func(*args, **kwargs)
 
-    # Setup the timer with the provided function and arguments
-    t = Timer(lambda: func(*args, **kwargs))
+        async def time_async():
+            nonlocal last_return_value
+            start_time = asyncio.get_event_loop().time()
+            for _ in range(number):
+                last_return_value = await wrapper()
+            end_time = asyncio.get_event_loop().time()
+            return end_time - start_time
 
-    # Time the function execution
-    execution_time = t.timeit(number=number)
+        execution_time = asyncio.run(time_async())
+    else:
+        def wrapper():
+            return func(*args, **kwargs)
 
-    # Log the execution time
+        t = Timer(lambda: wrapper())
+        execution_time = t.timeit(number=number)
+        last_return_value = wrapper()  # Get the last return value after timing
+
     ic(execution_time)
-
-    # Return both the execution time and the function's return value
-    return execution_time, return_value
+    return execution_time, last_return_value
 
 
-# Example usage
-def my_function(x):
-    """Example function that generates a string from 0 to x-1."""
-    return "-".join(str(n) for n in range(x))
+# Example usage for a synchronous function
+def sync_function(x):
+    return x * 2
 
 
-# Timing 'my_function' with argument 100 and capturing its return value
-execution_time, result = time_function_and_return_value(my_function, 100)
+execution_time, result = time_function(sync_function, 10)
+ic(result)
+
+
+# Example usage for an asynchronous function
+async def async_function(x):
+    return x * 2
+
+
+execution_time, result = time_function(async_function, 10, is_async=True)
 ic(result)
