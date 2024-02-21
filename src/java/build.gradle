@@ -1,0 +1,41 @@
+buildscript {
+    repositories {
+        maven {
+            name = "someName"
+            url = uri("someUrl")
+            credentials {
+                username = "yourUsername"
+                password = "yourPassword"
+            }
+        }
+    }
+}
+
+repositories {
+    maven {
+        name = "someName"
+        url = uri("someUrl")
+        credentials {
+            username = "yourUsername"
+            password = "yourPassword"
+        }
+    }
+    maven {
+        name = "someOtherName"
+        url = uri("someOtherUrl")
+        credentials {
+            username = "yourOtherUsername"
+            password = "yourOtherPassword"
+        }
+    }
+    mavenCentral()
+}
+
+tasks.register("bootRunLocal") {
+    group = "application"
+    description = "Runs the Spring Boot application with the local profile"
+    doFirst {
+        systemProperty("spring.profiles.active", "local,test")
+    }
+    finalizedBy("bootRun")
+}
