@@ -1,6 +1,11 @@
-index=your_index_name "Retrieving customer by"
-		| rex "Retrieving customer by (?
-<IDType>[A-Za-z]+) ID with \w+ ID (?
-	<IDValue>[A-Za-z0-9]+) and status = (?
-		<Status>[A-Z]+)"
-			| stats count by IDType, IDValue, Status
+index=your_index_name "Retrieving customer" | head 10
+
+index=your_index_name "Retrieving customer by customer ID with Customer ID" | head 10
+
+index=your_index_name "Retrieving customer by customer ID with Customer ID" 
+| rex "status = (?<Status>[A-Z]+)" 
+| stats count by Status
+
+index=your_index_name "Retrieving customer by customer ID with Customer ID" 
+| rex "Retrieving customer by (?<IDType>\w+) ID with \w+ ID (?<IDValue>\w+) and status = (?<Status>[A-Z]+)" 
+| stats count by IDType, IDValue, Status
