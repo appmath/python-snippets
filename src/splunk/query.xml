@@ -1,11 +1,6 @@
-<query>
-	index=someindex sourcetype=somesourcetype
-	| eval HTTP_Category = case(
-	payload.http_status == 200, "Status 200",
-	payload.http_status == 201, "Status 201",
-	payload.http_status == 404, "Status 404",
-	1=1, "Other"
-	)
-	| stats count by HTTP_Category
-</query>
-
+index=your_index_name "Retrieving customer by"
+		| rex "Retrieving customer by (?
+<IDType>[A-Za-z]+) ID with \w+ ID (?
+	<IDValue>[A-Za-z0-9]+) and status = (?
+		<Status>[A-Z]+)"
+			| stats count by IDType, IDValue, Status
