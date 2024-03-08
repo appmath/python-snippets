@@ -1,7 +1,5 @@
 index=your_index_name
-| rex "USER_ID=(?<USER_ID>\S+)"
 | rex "SEARCH_BY=(?<SEARCH_BY>\S+)"
 | rex "LDAP_STATUS=(?<LDAP_STATUS>\S+)"
-| eval allFieldsPresent=if(isnotnull(USER_ID) AND isnotnull(SEARCH_BY) AND isnotnull(LDAP_STATUS), 1, 0)
-| where allFieldsPresent=1
-| stats count by USER_ID, SEARCH_BY, LDAP_STATUS
+| search SEARCH_BY=* AND LDAP_STATUS=*
+| stats count by SEARCH_BY, LDAP_STATUS
