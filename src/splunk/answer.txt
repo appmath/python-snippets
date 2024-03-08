@@ -1,9 +1,6 @@
 index=your_index_name
-| rex "SEARCH_BY=(?<SEARCH_BY>\S+)"
-| stats count by SEARCH_BY
-| sort - count
-
-index=your_index_name
+| rex "SEARCH_BY=.*?DB_ID=(?<DB_ID>\S+?)(?:,|$)"
 | rex "LDAP_STATUS=(?<LDAP_STATUS>\S+)"
-| stats count by LDAP_STATUS
+| search DB_ID=* AND LDAP_STATUS=*
+| stats count by DB_ID
 | sort - count
