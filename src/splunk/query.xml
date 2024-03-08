@@ -2,3 +2,6 @@ index=your_index_name "Retrieving customer by customer ID"
 | rex "Retrieving customer by customer ID with customer ID (?<IDValue>\d+) and status=\"(?<Status>[^\"]+)\""
 | stats count by IDValue, Status
 
+index=your_index_name
+| rex "Retrieving customer by \w+ ID with \w+ ID (?<IDValue>[^\s]+) and status=\"(?<Status>[^\"]+)\""
+| stats count by IDValue, Status
