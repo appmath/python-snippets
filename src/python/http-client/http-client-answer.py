@@ -4,15 +4,18 @@ import os
 
 def read_input_file(filename):
     """
-    Reads the input file and returns a dictionary of the key-value pairs.
+    Reads the input file, ensuring commas at the end of lines are handled correctly,
+    and returns a dictionary of the key-value pairs.
     """
     data = {}
     try:
         with open(filename, 'r') as file:
             for line in file:
-                # Properly splitting each line by ': ' to extract key-value pairs
-                if ': ' in line:
-                    key, value = line.strip().split(': ', 1)
+                # Stripping potential commas at the end of each line before splitting
+                cleaned_line = line.strip().rstrip(',')
+                if ': ' in cleaned_line:
+                    key, value = cleaned_line.split(': ', 1)
+                    # Removing quotes around keys and values
                     data[key.strip('"')] = value.strip('"')
     except FileNotFoundError as e:
         print(f"File not found: {e}")
