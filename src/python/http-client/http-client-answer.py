@@ -11,9 +11,13 @@ def read_input_file(filename):
     try:
         with open(filename, 'r') as file:
             for line in file:
-                # Splitting each line by ': ' to extract key-value pairs
-                key, value = line.strip().split(': ')
-                data[key.strip('"')] = value.strip('"')
+                # Properly splitting each line by ': ' to extract key-value pairs
+                key_value = line.strip().split(': ', 1)
+                if len(key_value) == 2:
+                    key, value = key_value
+                    data[key.strip('"')] = value.strip('"')
+                else:
+                    ic(f"Skipping invalid line: {line}")
         ic(data)
     except FileNotFoundError as e:
         ic(e)
@@ -45,23 +49,27 @@ def write_json_file(data, filename):
         ic("No data to write.")
         return
     with open(filename, 'w') as json_file:
-        json.dump(data, json_file, indent=4)
+        json.dump(data, json_file, indent=4, ensure_ascii=False)
 
 
 def main():
-    # Using os.path to handle file paths
-    current_dir = os.path.dirname(__file__)
-    input_filename = os.path.join(current_dir, 'input.txt')
-    output_filename = os.path.join(current_dir, 'http.client.private.env.json')
+    # Adjust the paths as necessary
+    input_filename = 'input.txt'
+    output_filename = 'http.client.private.env.json'
+
+    # Ensure the script's directory is the base for file paths
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    input_path = os.path.join(script_dir, input_filename)
+    output_path = os.path.join(script_dir, output_filename)
 
     # Reading the input file
-    base_data = read_input_file(input_filename)
+    base_data = read_input_file(input_path)
 
     # Generating data for all environments
     env_data = generate_env_data(base_data)
 
     # Writing the output JSON file
-    write_json_file(env_data, output_filename)
+    write_json_file(env_data, output_path)
     ic(f"File '{output_filename}' has been created successfully.")
 
 
