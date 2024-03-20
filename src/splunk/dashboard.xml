@@ -1,30 +1,88 @@
-.material-column {
-		width: 32%;
-		margin-right: 2%;
-		border: 1px solid #333; /* Lighter border for visibility */
-		background-color: #121212; /* Slightly lighter than black for contrast */
-		color: #FFFFFF;
-		}
-		.material-column:last-child {
-		margin-right: 0;
-		}
-		.material-column th {
-		background-color: #6200EA; /* Primary Color */
-		color: #FFFFFF; /* Text on Primary */
-		padding: 16px;
-		font-size: 20px;
-		}
-		.material-column td {
-		padding: 12px;
-		border-bottom: 1px solid #333; /* Adjusted for dark theme */
-		}
-		.material-column a {
-		color: #BB86FC; /* Adjusted for visibility */
-		text-decoration: none;
-		display: block;
-		padding: 8px 0;
-		}
-		.material-column a:hover {
-		background-color: #03DAC6; /* Secondary Color */
-		color: #000000; /* Text on Secondary */
-		}
+<panel>
+	<html>
+		<style>
+			.material-column {
+			width: 32%;
+			margin-right: 2%;
+			border: 1px solid #333; /* Subtle border for definition */
+			color: #FFFFFF;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Adjusted shadow for visibility */
+			}
+			.material-column:last-child {
+			margin-right: 0;
+			}
+			/* Column-specific background colors */
+			.column-1 {
+			background-color: #673AB7; /* Deep Purple */
+			}
+			.column-2 {
+			background-color: #3F51B5; /* Indigo */
+			}
+			.column-3 {
+			background-color: #00BCD4; /* Cyan */
+			}
+			.material-column th {
+			padding: 16px;
+			font-size: 20px;
+			}
+			.material-column td {
+			padding: 12px;
+			border-bottom: 1px solid #333; /* Adjusted for dark theme */
+			}
+			.material-column a {
+			color: #BB86FC; /* Light purple for contrast and visibility */
+			text-decoration: none;
+			display: block;
+			padding: 8px 0;
+			}
+			.material-column a:hover {
+			background-color: #03DAC6; /* Secondary Color */
+			color: #000000; /* Text on Secondary */
+			}
+		</style>
+		<div style="display: flex; justify-content: space-between;">
+			<!-- Column 1 -->
+			<div class="material-column column-1">
+				<table style="width: 100%;">
+					<tr>
+						<th>Column 1 Title</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="/app/search/dashboard1">Dashboard 1</a>
+						</td>
+					</tr>
+					<!-- Add more links as needed -->
+				</table>
+			</div>
+			<!-- Column 2 -->
+			<div class="material-column column-2">
+				<table style="width: 100%;">
+					<tr>
+						<th>Column 2 Title</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="/app/search/dashboard2">Dashboard 2</a>
+						</td>
+					</tr>
+					<!-- Add more links as needed -->
+				</table>
+			</div>
+			<!-- Column 3 -->
+			<div class="material-column column-3">
+				<table style="width: 100%;">
+					<tr>
+						<th>Column 3 Title</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="/app/search/dashboard3">Dashboard 3</a>
+						</td>
+					</tr>
+					<!-- Add more links as needed -->
+				</table>
+			</div>
+		</div>
+	</html>
+</panel>
