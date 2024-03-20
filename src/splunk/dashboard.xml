@@ -1,0 +1,63 @@
+<panel>
+	<html>
+		<div style="display: flex; justify-content: space-between;">
+			<!-- Table 1 - Column 1 -->
+			<div style="width: 32%; margin-right: 2%;">
+				<table style="width: 100%; background-color: #004d99; color: #ffffff;">
+					<tr>
+						<th style="padding: 10px;">Column 1 Title</th>
+					</tr>
+					<tr>
+						<td style="padding: 10px;">
+							<a href="/app/search/dashboard1" style="color: #ffffff;">Dashboard 1</a>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding: 10px;">
+							<a href="/app/search/dashboard2" style="color: #ffffff;">Dashboard 2</a>
+						</td>
+					</tr>
+					<!-- Add more rows/links as needed -->
+				</table>
+			</div>
+			<!-- Table 2 - Column 2 -->
+			<div style="width: 32%; margin-right: 2%;">
+				<table style="width: 100%; background-color: #007acc; color: #ffffff;">
+					<tr>
+						<th style="padding: 10px;">Column 2 Title</th>
+					</tr>
+					<tr>
+						<td style="padding: 10px;">
+							<a href="/app/search/dashboard3" style="color: #ffffff;">Dashboard 3</a>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding: 10px;">
+							<a href="/app/search/dashboard4" style="color: #ffffff;">Dashboard 4</a>
+						</td>
+					</tr>
+					<!-- Add more rows/links as needed -->
+				</table>
+			</div>
+			<!-- Table 3 - Column 3 -->
+			<div style="width: 32%;">
+				<table style="width: 100%; background-color: #0099ff; color: #ffffff;">
+					<tr>
+						<th style="padding: 10px;">Column 3 Title</th>
+					</tr>
+					<tr>
+						<td style="padding: 10px;">
+							<a href="/app/search/dashboard5" style="color: #ffffff;">Dashboard 5</a>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding: 10px;">
+							<a href="/app/search/dashboard6" style="color: #ffffff;">Dashboard 6</a>
+						</td>
+					</tr>
+					<!-- Add more rows/links as needed -->
+				</table>
+			</div>
+		</div>
+	</html>
+</panel>
