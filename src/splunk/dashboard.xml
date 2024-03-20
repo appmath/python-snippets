@@ -1,61 +1,77 @@
 <panel>
 	<html>
+		<style>
+			.material-column {
+			width: 32%;
+			margin-right: 2%;
+			box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Material Design shadow */
+			}
+			.material-column:last-child {
+			margin-right: 0;
+			}
+			.material-column th {
+			background-color: #6200EA; /* Primary Color */
+			color: #FFFFFF; /* Text on Primary */
+			padding: 16px;
+			font-size: 20px;
+			}
+			.material-column td {
+			background-color: #FFFFFF; /* Background for links */
+			padding: 12px;
+			border-bottom: 1px solid #EEEEEE; /* Light divider */
+			}
+			.material-column a {
+			color: #6200EA; /* Primary Color */
+			text-decoration: none;
+			display: block;
+			padding: 8px 0;
+			}
+			.material-column a:hover {
+			background-color: #03DAC6; /* Secondary Color */
+			color: #000000; /* Text on Secondary */
+			}
+		</style>
 		<div style="display: flex; justify-content: space-between;">
-			<!-- Table 1 - Column 1 -->
-			<div style="width: 32%; margin-right: 2%;">
+			<!-- Column 1 -->
+			<div class="material-column">
 				<table style="width: 100%;">
 					<tr>
-						<th style="background-color: #004d99; color: #ffffff; padding: 10px;">Column 1 Title</th>
+						<th>Column 1 Title</th>
 					</tr>
 					<tr>
-						<td style="padding: 10px;">
+						<td>
 							<a href="/app/search/dashboard1">Dashboard 1</a>
 						</td>
 					</tr>
+					<!-- Add more links as needed -->
+				</table>
+			</div>
+			<!-- Column 2 -->
+			<div class="material-column">
+				<table style="width: 100%;">
 					<tr>
-						<td style="padding: 10px;">
+						<th>Column 2 Title</th>
+					</tr>
+					<tr>
+						<td>
 							<a href="/app/search/dashboard2">Dashboard 2</a>
 						</td>
 					</tr>
-					<!-- Add more rows/links as needed -->
+					<!-- Add more links as needed -->
 				</table>
 			</div>
-			<!-- Table 2 - Column 2 -->
-			<div style="width: 32%; margin-right: 2%;">
+			<!-- Column 3 -->
+			<div class="material-column">
 				<table style="width: 100%;">
 					<tr>
-						<th style="background-color: #007acc; color: #ffffff; padding: 10px;">Column 2 Title</th>
+						<th>Column 3 Title</th>
 					</tr>
 					<tr>
-						<td style="padding: 10px;">
+						<td>
 							<a href="/app/search/dashboard3">Dashboard 3</a>
 						</td>
 					</tr>
-					<tr>
-						<td style="padding: 10px;">
-							<a href="/app/search/dashboard4">Dashboard 4</a>
-						</td>
-					</tr>
-					<!-- Add more rows/links as needed -->
-				</table>
-			</div>
-			<!-- Table 3 - Column 3 -->
-			<div style="width: 32%;">
-				<table style="width: 100%;">
-					<tr>
-						<th style="background-color: #0099ff; color: #ffffff; padding: 10px;">Column 3 Title</th>
-					</tr>
-					<tr>
-						<td style="padding: 10px;">
-							<a href="/app/search/dashboard5">Dashboard 5</a>
-						</td>
-					</tr>
-					<tr>
-						<td style="padding: 10px;">
-							<a href="/app/search/dashboard6">Dashboard 6</a>
-						</td>
-					</tr>
-					<!-- Add more rows/links as needed -->
+					<!-- Add more links as needed -->
 				</table>
 			</div>
 		</div>
