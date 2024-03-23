@@ -1,6 +1,22 @@
+from icecream import ic
 import json
 import re
-from icecream import ic
+
+
+def read_and_fix_input(input_filename):
+    """
+    Attempts to read the input file and wrap its content into a valid JSON string.
+    """
+    try:
+        with open(input_filename, 'r') as file:
+            # Assuming the entire file content is a single, albeit incorrectly formatted, JSON object
+            content = file.read().strip()
+            # Attempt to fix common JSON issues (this is a naive approach and might not work for all cases)
+            fixed_content = "{" + content + "}"
+            return fixed_content
+    except Exception as e:
+        ic('Error reading input file', e)
+        return None
 
 
 def replace_env_in_url(text, current_env):
@@ -21,20 +37,16 @@ def process_input_content(input_content):
     try:
         input_data = json.loads(input_content)
 
-        # Remove the "Security" section and save it for later
-        security_data = input_data.pop("Security", None)
+        # Separate the "Security" section if it exists
+        security_data = input_data.pop("Security", {})
 
-        # Process each key-value pair in the input data
-        for key, value in input_data.items():
-            for env in envs:
+        for env in envs:
+            for key, value in input_data.items():
                 if isinstance(value, str):
                     adjusted_value = replace_env_in_url(value, env.replace('env', ''))
                     env_structure[env][key] = adjusted_value
-
-        # Add the "Security" section back without modification
-        if security_data:
-            for env in envs:
-                env_structure[env]["Security"] = security_data
+            # Copy the "Security" section as is
+            env_structure[env]["Security"] = security_data
 
     except json.JSONDecodeError as e:
         ic('Error parsing input JSON', e)
@@ -46,20 +58,18 @@ def generate_env_json(input_filename, output_filename):
     """
     Generate a JSON file with URLs adjusted for each environment, preserving the "Security" section.
     """
-    try:
-        with open(input_filename, 'r') as file:
-            input_content = file.read()
-
-        # Process the input content to adjust URLs and preserve the "Security" section
+    input_content = read_and_fix_input(input_filename)
+    if input_content:
         env_data = process_input_content(input_content)
 
-        # Write the processed data to a JSON file
-        with open(output_filename, 'w') as json_file:
-            json.dump(env_data, json_file, indent=4)
-
-        ic(f"JSON file '{output_filename}' has been generated.")
-    except Exception as e:
-        ic('An error occurred', e)
+        try:
+            with open(output_filename, 'w') as json_file:
+                json.dump(env_data, json_file, indent=4)
+            ic(f"JSON file '{output_filename}' has been generated.")
+        except Exception as e:
+            ic('An error occurred while writing the JSON file', e)
+    else:
+        ic('Failed to process the input file.')
 
 
 def main():
