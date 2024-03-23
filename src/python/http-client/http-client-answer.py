@@ -7,7 +7,6 @@ def replace_env_in_url(text, current_env):
     """
     Replace '-envX' with '-envY' where Y is the target environment number or name.
     """
-    # For environments like 'perf' and 'prep', we directly use the name. For others, we extract the number.
     if current_env in ['perf', 'prep']:
         target_env = current_env
     else:
@@ -27,12 +26,17 @@ def process_input_content(input_content):
     # Split the input content by lines to process each URL entry separately
     lines = input_content.strip().split('\n')
     for line in lines:
-        # For each environment, replace the placeholder with the correct environment identifier
-        for env in envs:
-            adjusted_line = replace_env_in_url(line, env)
-            # Extract the key (e.g., "someUrl") from the adjusted line for assignment
-            key = re.search(r'"([^"]+)":', adjusted_line).group(1)
-            env_structure[env][key] = json.loads(f'{{ {adjusted_line} }}')[key]
+        # Attempt to parse each line as JSON to extract the key-value pair
+        try:
+            line_json = json.loads(f"{{ {line} }}")
+            key, value = next(iter(line_json.items()))
+            # For each environment, replace the placeholder with the correct environment identifier
+            for env in envs:
+                adjusted_value = replace_env_in_url(value, env)
+                env_structure[env][key] = adjusted_value
+        except json.JSONDecodeError as e:
+            ic('Error parsing line to JSON', e)
+            continue
 
     return env_structure
 
@@ -54,7 +58,7 @@ def generate_env_json(input_filename, output_filename):
 
         ic(f"JSON file '{output_filename}' has been generated.")
     except Exception as e:
-        ic(f"An error occurred: {e}")
+        ic('An error occurred', e)
 
 
 def main():
