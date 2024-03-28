@@ -40,16 +40,17 @@ def process_input_content(input_content):
     try:
         input_data = json.loads(input_content)
 
-        # Separate the "Security" section if it exists
-        security_data = input_data.pop("Security", {})
+        # Check if the "Security" section exists
+        security_data = input_data.pop("Security", None)
 
         for env in envs:
             for key, value in input_data.items():
                 if isinstance(value, str):
                     adjusted_value = replace_env_in_url(value, env.replace('env', ''))
                     env_structure[env][key] = adjusted_value
-            # Copy the "Security" section as is
-            env_structure[env]["Security"] = security_data
+            # Copy the "Security" section as is, if it exists
+            if security_data is not None:
+                env_structure[env]["Security"] = security_data
 
     except json.JSONDecodeError as e:
         ic('Error parsing input JSON', e)
