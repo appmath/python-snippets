@@ -19,13 +19,14 @@ def read_and_fix_input(input_filename):
         return None
 
 
-def replace_env_in_url(text, current_env):
+def replace_env_in_url(text, env):
     """
     Replace '-envX' with '-envY' where Y is the target environment number or name.
-    Additionally, checks if a URL contains "71b" and changes it to "71d".
+    For 'perf' and 'prep' environments, changes "71b" to "71d".
     """
-    text = re.sub(r'-env\d+', f'-env{current_env}', text)
-    text = text.replace("71b", "71d")  # Directly replace "71b" with "71d"
+    text = re.sub(r'-env\d+', f'-env{env.replace("env", "")}', text)
+    if env in ['perf', 'prep']:
+        text = text.replace("71b", "71d")  # Change "71b" to "71d" for specific environments
     return text
 
 
@@ -46,7 +47,7 @@ def process_input_content(input_content):
         for env in envs:
             for key, value in input_data.items():
                 if isinstance(value, str):
-                    adjusted_value = replace_env_in_url(value, env.replace('env', ''))
+                    adjusted_value = replace_env_in_url(value, env)
                     env_structure[env][key] = adjusted_value
             # Copy the "Security" section as is, if it exists
             if security_data is not None:
