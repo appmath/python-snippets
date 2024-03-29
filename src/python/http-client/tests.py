@@ -18,12 +18,12 @@ def generate_code_blocks(input_file_path, output_file_path_1, output_file_path_2
         value_ids = [value_id.strip() for value_id in match.group(1).split(',')]
         warning_comment = "// == WARNING: DON'T FORGET TO CONVERT THE VALUES =="
 
-        # Check if "userId" or "login" is in value_ids
-        warning_needed = any(value_id in ["userId", "login"] for value_id in value_ids)
+        # Function to check if warning is needed for a specific valueId
+        def needs_warning(value_id):
+            return value_id in ["userId", "login"]
 
         # Preparing the first code block
         first_block_lines = [
-            warning_comment if warning_needed else "",
             "> {%",
             'client.test("Request executed successfully", function() {',
             '    client.assert(response.status === 200, `Response is not 200, status: ${response.status}`);',
@@ -32,8 +32,10 @@ def generate_code_blocks(input_file_path, output_file_path_1, output_file_path_2
             '    const {' + ', '.join(value_ids) + '} = data;\n'
         ]
 
-        # Adding lines to save the values for testing
+        # Adding lines to save the values for testing, with warnings if necessary
         for value_id in value_ids:
+            if needs_warning(value_id):
+                first_block_lines.append(warning_comment)
             first_block_lines.append(f'    client.global.set("{value_id}", {value_id});')
 
         first_block_lines.extend([
@@ -44,7 +46,6 @@ def generate_code_blocks(input_file_path, output_file_path_1, output_file_path_2
 
         # Preparing the second code block
         second_block_lines = [
-            warning_comment if warning_needed else "",
             "> {%",
             'client.test("Request executed successfully", function() {',
             '    client.assert(response.status === 200, `Response is not 200, status: ${response.status}`);',
@@ -52,9 +53,11 @@ def generate_code_blocks(input_file_path, output_file_path_1, output_file_path_2
             '    const {' + ', '.join(value_ids) + '} = body;\n'
         ]
 
-        # Adding lines for camelCase variables
+        # Adding lines for camelCase variables, with warnings if necessary
         for value_id in value_ids:
             camel_case_id = f'ctic{value_id[0].upper()}{value_id[1:]}'
+            if needs_warning(value_id):
+                second_block_lines.append(warning_comment)
             second_block_lines.append(f'    const {camel_case_id} = client.global.get("{value_id}");')
 
         second_block_lines.append('')  # Additional newline for spacing
