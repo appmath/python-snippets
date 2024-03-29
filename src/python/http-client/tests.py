@@ -52,13 +52,14 @@ def generate_code_blocks(input_file_path, output_file_path_1, output_file_path_2
             '    const {' + ', '.join(value_ids) + '} = body;\n'
         ]
 
-        # Adding lines for camelCase variables, with a space before assertions
+        # Adding lines for camelCase variables
         for value_id in value_ids:
             camel_case_id = f'ctic{value_id[0].upper()}{value_id[1:]}'
             add_warning_if_needed(value_id, second_block_lines)
             second_block_lines.append(f'    const {camel_case_id} = client.global.get("{value_id}");')
 
-        second_block_lines.append('    // Leave space between the const and the tests')
+        # Explicitly adding an empty line for spacing before the tests
+        second_block_lines.append('')
 
         # Adding assertion tests with spacing for the second block
         for value_id in value_ids:
