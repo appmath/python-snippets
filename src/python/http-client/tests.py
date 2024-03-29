@@ -7,9 +7,9 @@ def generate_code_blocks(input_file_path, output_file_path_1, output_file_path_2
         return value_id in ["userId", "login"]
 
     def add_warning_if_needed(value_id, lines):
-        """Add a warning comment above the code related to 'userId' or 'login'."""
+        """Add a warning comment directly above the code related to 'userId' or 'login'."""
         if needs_warning(value_id):
-            lines.append("// == WARNING: DON'T FORGET TO CONVERT THE VALUES ==")
+            lines.append("    // == WARNING: DON'T FORGET TO CONVERT THE VALUES ==")
 
     def write_code_block(file_path, block_lines):
         """Write the given lines to a file."""
@@ -42,21 +42,23 @@ def generate_code_blocks(input_file_path, output_file_path_1, output_file_path_2
             '    const {' + ', '.join(value_ids) + '} = data;\n'
         ]
 
-        # Second block specific lines (reuses common_header)
-        second_block_lines = common_header.copy() + [
-            '    const {' + ', '.join(value_ids) + '} = body;\n'
-        ]
-
         # Adding lines to save the values for testing, with warnings if necessary
         for value_id in value_ids:
             add_warning_if_needed(value_id, first_block_lines)
             first_block_lines.append(f'    client.global.set("{value_id}", {value_id});')
 
-        # Adding lines for camelCase variables, with warnings if necessary
+        # Second block specific lines (reuses common_header)
+        second_block_lines = common_header.copy() + [
+            '    const {' + ', '.join(value_ids) + '} = body;\n'
+        ]
+
+        # Adding lines for camelCase variables, with a space before assertions
         for value_id in value_ids:
             camel_case_id = f'ctic{value_id[0].upper()}{value_id[1:]}'
             add_warning_if_needed(value_id, second_block_lines)
             second_block_lines.append(f'    const {camel_case_id} = client.global.get("{value_id}");')
+
+        second_block_lines.append('    // Leave space between the const and the tests')
 
         # Adding assertion tests with spacing for the second block
         for value_id in value_ids:
@@ -65,7 +67,7 @@ def generate_code_blocks(input_file_path, output_file_path_1, output_file_path_2
                 f'    client.assert({value_id} === {camel_case_id}, `Expected ${{{camel_case_id}}} {camel_case_id}, got ${{{value_id}}}`);')
 
         # Common footer for both blocks
-        common_footer = ['', '});', "%}"]
+        common_footer = ['    });', "%}"]
 
         # Finalizing both blocks
         first_block_lines.extend(common_footer)
