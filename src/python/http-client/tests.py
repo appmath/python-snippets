@@ -22,9 +22,9 @@ def generate_code_blocks(input_file_path, output_file_path):
             "> {%",
             'client.test("Request executed successfully", function() {',
             '    client.assert(response.status === 200, `Response is not 200, status: ${response.status}`);',
-            '    const body = response.body;',
+            '    const body = response.body;\n',
             '    const data = body.data[0];',
-            '    const {' + ', '.join(value_ids) + '} = data;'
+            '    const {' + ', '.join(value_ids) + '} = data;\n'
         ]
 
         # Adding lines to save the values for testing
@@ -32,6 +32,7 @@ def generate_code_blocks(input_file_path, output_file_path):
             first_block_lines.append(f'    client.global.set("{value_id}", {value_id});')
 
         first_block_lines.extend([
+            '',  # Additional newline for spacing
             '});',
             "%}"
         ])
@@ -41,21 +42,25 @@ def generate_code_blocks(input_file_path, output_file_path):
             "> {%",
             'client.test("Request executed successfully", function() {',
             '    client.assert(response.status === 200, `Response is not 200, status: ${response.status}`);',
-            '    const body = response.body;',
-            '    const {' + ', '.join(value_ids) + '} = body;'
+            '    const body = response.body;\n',
+            '    const {' + ', '.join(value_ids) + '} = body;\n'
         ]
 
-        # Adding lines for camelCase variables and assertions
+        # Adding lines for camelCase variables
         for value_id in value_ids:
             camel_case_id = f'ctic{value_id[0].upper()}{value_id[1:]}'
             second_block_lines.append(f'    const {camel_case_id} = client.global.get("{value_id}");')
 
+        second_block_lines.append('')  # Additional newline for spacing
+
+        # Adding assertion tests with spacing
         for value_id in value_ids:
             camel_case_id = f'ctic{value_id[0].upper()}{value_id[1:]}'
             second_block_lines.append(
                 f'    client.assert({value_id} === {camel_case_id}, `Expected ${{{camel_case_id}}} {camel_case_id}, got ${{{value_id}}}`);')
 
         second_block_lines.extend([
+            '',  # Additional newline for spacing
             '});',
             "%}"
         ])
@@ -70,7 +75,7 @@ def generate_code_blocks(input_file_path, output_file_path):
         print(f"Error opening or reading the file: {e}")
 
 
-# Example usage
-input_file_path = 'input.txt'  # This should be the path to your input file
-output_file_path = 'output_code_blocks.http'  # The path where you want to save the output code blocks
+# Adjusted example usage with the specified file names
+input_file_path = 'ctic-values.txt'  # This should be the path to your input file
+output_file_path = 'generated-ctic-tests.txt'  # The path where you want to save the output code blocks
 generate_code_blocks(input_file_path, output_file_path)
