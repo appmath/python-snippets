@@ -1,7 +1,7 @@
 import re
 
 
-def generate_code_blocks(input_file_path, output_file_path):
+def generate_code_blocks(input_file_path, output_file_path_1, output_file_path_2):
     try:
         with open(input_file_path, 'r') as file:
             content = file.read()
@@ -16,9 +16,14 @@ def generate_code_blocks(input_file_path, output_file_path):
 
         # Extracting valueIds and removing whitespace
         value_ids = [value_id.strip() for value_id in match.group(1).split(',')]
+        warning_comment = "// == WARNING: DON'T FORGET TO CONVERT THE VALUES =="
+
+        # Check if "userId" or "login" is in value_ids
+        warning_needed = any(value_id in ["userId", "login"] for value_id in value_ids)
 
         # Preparing the first code block
         first_block_lines = [
+            warning_comment if warning_needed else "",
             "> {%",
             'client.test("Request executed successfully", function() {',
             '    client.assert(response.status === 200, `Response is not 200, status: ${response.status}`);',
@@ -39,6 +44,7 @@ def generate_code_blocks(input_file_path, output_file_path):
 
         # Preparing the second code block
         second_block_lines = [
+            warning_comment if warning_needed else "",
             "> {%",
             'client.test("Request executed successfully", function() {',
             '    client.assert(response.status === 200, `Response is not 200, status: ${response.status}`);',
@@ -65,17 +71,22 @@ def generate_code_blocks(input_file_path, output_file_path):
             "%}"
         ])
 
-        # Writing to the output file
-        with open(output_file_path, 'w') as output_file:
-            output_file.write('\n'.join(first_block_lines + ['\n'] + second_block_lines))
+        # Writing the first code block to the first output file
+        with open(output_file_path_1, 'w') as output_file_1:
+            output_file_1.write('\n'.join(first_block_lines))
 
-        print(f"Code blocks generated successfully and saved to {output_file_path}")
+        # Writing the second code block to the second output file
+        with open(output_file_path_2, 'w') as output_file_2:
+            output_file_2.write('\n'.join(second_block_lines))
+
+        print(f"Code blocks generated successfully and saved to {output_file_path_1} and {output_file_path_2}")
 
     except IOError as e:
         print(f"Error opening or reading the file: {e}")
 
 
-# Adjusted example usage with the specified file names
-input_file_path = 'ctic-values.txt'  # This should be the path to your input file
-output_file_path = 'generated-ctic-tests.txt'  # The path where you want to save the output code blocks
-generate_code_blocks(input_file_path, output_file_path)
+# Adjusted example usage with the specified file names and separate output files
+input_file_path = 'ctic-values.txt'
+output_file_path_1 = 'generated-ctic-tests-1.txt'
+output_file_path_2 = 'generated-ctic-tests-2.txt'
+generate_code_blocks(input_file_path, output_file_path_1, output_file_path_2)
