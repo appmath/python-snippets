@@ -1,16 +1,30 @@
-const jsonString
+const contacts
 
-const data = JSON.parse(jsonString);
+function findDeliverableContacts(contacts) {
+    let result = {
+        email: null,
+        mobile: null
+    };
 
-function findDeliverableMobileContact(data) {
-    if (data.contacts && Array.isArray(data.contacts)) {
-        const mobileContact = data.contacts.find(contact =>
-            contact.contactType === "Mobile" && contact.deliverable === true
-        );
-        return mobileContact ? mobileContact.contact : null;
+    // Find Email
+    const emailContact = contacts.find(contact =>
+        contact.contactType === "Email" && contact.deliverable === true
+    );
+    if (emailContact) {
+        result.email = emailContact.contact;
     }
-    return null;
+
+    // Find Mobile
+    const mobileContact = contacts.find(contact =>
+        contact.contactType === "Mobile" && contact.deliverable === true
+    );
+    if (mobileContact) {
+        result.mobile = mobileContact.contact;
+    }
+
+    return result;
 }
 
-const mobileContact = findDeliverableMobileContact(data);
-console.log(mobileContact); // Output: "602334331"
+const {email, mobile} = findDeliverableContacts(contacts);
+console.log(`Email: ${email}, Mobile: ${mobile}`);
+// Output: Email: someEmail@example.com, Mobile: 602334331
