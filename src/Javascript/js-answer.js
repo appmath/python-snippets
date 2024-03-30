@@ -1,36 +1,20 @@
-function generateRandomPassword(length) {
-    // Define character sets
-    const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
-    const numberChars = '0123456789';
-    const symbolChars = '!@#$%^&*()_+-=[]{}|;:\'",.<>?/~`';
+// Assuming the JSON data is stored in a variable named jsonString
+const jsonString =
 
-    // Combine all character sets
-    const allChars = uppercaseChars + lowercaseChars + numberChars + symbolChars;
+// Parse the JSON string into an object
+const data = JSON.parse(jsonString);
 
-    // Ensure the password includes at least one character from each set
-    const passwordArray = [
-        uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)],
-        lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)],
-        numberChars[Math.floor(Math.random() * numberChars.length)],
-        symbolChars[Math.floor(Math.random() * symbolChars.length)]
-    ];
-
-    // Fill the rest of the password length with random characters from all sets
-    for (let i = passwordArray.length; i < length; i++) {
-        passwordArray.push(allChars[Math.floor(Math.random() * allChars.length)]);
+// Function to extract mobile contacts that are deliverable
+function extractDeliverableMobileContacts(data) {
+    // Check if contacts exist and filter based on conditions
+    if (data.contacts && Array.isArray(data.contacts)) {
+        return data.contacts.filter(contact =>
+            contact.contactType === "Mobile" && contact.deliverable === true
+        ).map(contact => contact.contact);
     }
-
-    // Shuffle the array to ensure randomness of character distribution
-    for (let i = passwordArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [passwordArray[i], passwordArray[j]] = [passwordArray[j], passwordArray[i]]; // ES6 array destructuring swap
-    }
-
-    return passwordArray;
+    return [];
 }
 
-// Example usage:
-const passwordLength = 12; // You can change this to any desired length
-const randomPasswordArray = generateRandomPassword(passwordLength);
-console.log(randomPasswordArray);
+// Extract the contacts and log them
+const mobileContacts = extractDeliverableMobileContacts(data);
+console.log(mobileContacts); // Output: ['602334331']
