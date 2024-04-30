@@ -1,1 +1,38 @@
-| rex field=myField "^\s+.*\s+$"
+<dashboard>
+    <input type="time" token="time">
+        <label>Time Picker</label>
+    </input>
+    
+    <fieldset submitButton="false" autoRun="true">
+        <input type="hidden" token="span">
+            <default>$time.earliest$</default>
+            <change>
+                <condition match="'$time.earliest$' >= '-24h@h' AND '$time.latest$' <= 'now'">
+                    <set token="span">1h</set>
+                </condition>
+                <condition match="'$time.earliest$' < '-24h@h' OR '$time.latest$' > 'now'">
+                    <set token="span">1d</set>
+                </condition>
+            </change>
+        </input>
+    </fieldset>
+
+    <search>
+        <query>
+            index="someindex" app_name=someappname MESSAGE="message"
+            | dedup SOME_ID
+            | bin _time span=$span$
+            | stats count by _time, MESSAGE
+        </query>
+        <option name="refresh.display">progressbar</option>
+    </search>
+
+    <!-- Visualization goes here, such as a chart or table -->
+    <chart>
+        <title>Message Count Over Time</title>
+        <search base="the_search">
+            <query>| timechart span=$span$ count by MESSAGE</query>
+        </search>
+        <option name="charting.chart">line</option>
+    </chart>
+</dashboard>
