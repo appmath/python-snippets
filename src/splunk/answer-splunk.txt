@@ -1,7 +1,7 @@
 <dashboard>
     <label>Dynamic Time Analysis Dashboard</label>
     <fieldset submitButton="false" autoRun="true">
-        <input type="time" token="time">
+        <input type="time" token="TIME_PICKER">
             <label>Time Picker</label>
             <default>
                 <earliest>-24h</earliest>
@@ -9,35 +9,39 @@
             </default>
         </input>
 
-        <input type="hidden" token="span">
-            <default>1h</default> <!-- Default span -->
+        <input type="hidden" token="TIME_BUCKET_SPAN">
+            <default>1h</default>
             <change>
-                <condition match="'$time.earliest$' >= '-24h@h' AND '$time.latest$' <= 'now'">
-                    <set token="span">1h</set>
+                <condition match="'$TIME_PICKER.earliest$' >= '-24h@h' AND '$TIME_PICKER.latest$' <= 'now'">
+                    <set token="TIME_BUCKET_SPAN">1h</set>
                 </condition>
-                <condition match="'$time.earliest$' < '-24h@h' OR '$time.latest$' > 'now'">
-                    <set token="span">1d</set>
+                <condition match="'$TIME_PICKER.earliest$' < '-24h@h' OR '$TIME_PICKER.latest$' > 'now'">
+                    <set token="TIME_BUCKET_SPAN">1d</set>
                 </condition>
             </change>
         </input>
     </fieldset>
 
-    <search id="mainSearch">
-        <query>
-            index="someindex" app_name=someappname MESSAGE="message"
-            | dedup SOME_ID
-            | bin _time span=$span$
-            | stats count by _time, MESSAGE
-        </query>
-        <option name="refresh.display">progressbar</option>
-    </search>
+    <row>
+        <panel>
+            <search id="mainSearch">
+                <query>
+                    index="someindex" app_name=someappname MESSAGE="message"
+                    | dedup SOME_ID
+                    | bin _time span=$TIME_BUCKET_SPAN$
+                    | stats count by _time, MESSAGE
+                </query>
+                <option name="refresh.display">progressbar</option>
+            </search>
 
-    <!-- Visualization: Time Chart -->
-    <chart>
-        <title>Message Count Over Time</title>
-        <search base="mainSearch">
-            <query>| timechart span=$span$ count by MESSAGE</query>
-        </search>
-        <option name="charting.chart">line</option>
-    </chart>
+            <!-- Visualization: Time Chart -->
+            <chart>
+                <title>Message Count Over Time</title>
+                <search base="mainSearch">
+                    <query>| timechart span=$TIME_BUCKET_SPAN$ count by MESSAGE</query>
+                </search>
+                <option name="charting.chart">line</option>
+            </chart>
+        </panel>
+    </row>
 </dashboard>
