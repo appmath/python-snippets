@@ -1,17 +1,18 @@
-function generateID() {
-    const length = 12;
-    const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const specialChars = "!@#$%^&*()_+-=[]{}|;:',.<>/?";
-    let result = "";
-    for (let i = 0; i < length - 1; i++) {
-        result += charset.charAt(Math.floor(Math.random() * charset.length));
-    }
-    // Add a special character at a random position in the result
-    const specialChar = specialChars.charAt(Math.floor(Math.random() * specialChars.length));
-    const position = Math.floor(Math.random() * (result.length + 1));
-    result = result.slice(0, position) + specialChar + result.slice(position);
+function generateRandomEmail(domainList = ["example.com", "test.com", "sample.org"], numEmails = 1) {
+    const emails = [];
 
-    return result;
+    for (let i = 0; i < numEmails; i++) {
+        const usernameLength = Math.floor(Math.random() * (12 - 6 + 1)) + 6;
+        const username = Array.from({ length: usernameLength }, () =>
+            String.fromCharCode(Math.floor(Math.random() * 36) + (Math.random() < 0.5 ? 48 : 87))
+        ).join('');
+        const domain = domainList[Math.floor(Math.random() * domainList.length)];
+        emails.push(`${username}@${domain}`);
+    }
+
+    return emails;
 }
 
-console.log(generateID());
+// Generate 10 random email addresses
+const randomEmails = generateRandomEmail(undefined, 10);
+randomEmails.forEach(email => console.log(email));
