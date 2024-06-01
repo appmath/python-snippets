@@ -14,13 +14,13 @@
 					margin-right: 2%;
 					}
 					.column1 th {
-					background-color: #6200EA; /* Dark background for title */
+					background-color: #673AB7; /* Dark background for title */
 					}
 					.column2 th {
-					background-color: #0096AA; /* Darkened color */
+					background-color: #3F51B5; /* Different background for title */
 					}
 					.column3 th {
-					background-color: #FF0266; /* Another different background for title */
+					background-color: #0096AA; /* Another different background for title */
 					}
 					th {
 					color: #FFFFFF; /* White title font */
