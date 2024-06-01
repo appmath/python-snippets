@@ -13,8 +13,16 @@
 					width: 32%;
 					margin-right: 2%;
 					}
-					.material-column th {
+					.column1 th {
 					background-color: #6200EA; /* Dark background for title */
+					}
+					.column2 th {
+					background-color: #03DAC6; /* Different background for title */
+					}
+					.column3 th {
+					background-color: #FF0266; /* Another different background for title */
+					}
+					th {
 					color: #FFFFFF; /* White title font */
 					padding: 10px;
 					font-size: 20px;
@@ -36,7 +44,7 @@
 					}
 				</style>
 				<div style="display: flex; justify-content: space-between;">
-					<div class="material-column">
+					<div class="material-column column1">
 						<table style="width: 100%;">
 							<thead>
 								<tr>
@@ -54,7 +62,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="material-column">
+					<div class="material-column column2">
 						<table style="width: 100%;">
 							<thead>
 								<tr>
@@ -72,7 +80,7 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="material-column">
+					<div class="material-column column3">
 						<table style="width: 100%;">
 							<thead>
 								<tr>
