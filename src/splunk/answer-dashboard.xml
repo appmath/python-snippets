@@ -39,7 +39,7 @@
 					padding: 8px 0;
 					}
 					.material-column a:hover {
-					background-color: #FFD700; /* Contrast hover color */
+					background-color: #FFEB3B; /* Softer yellow hover color */
 					color: #000000; /* Text color on hover */
 					}
 				</style>
