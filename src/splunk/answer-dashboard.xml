@@ -1,0 +1,93 @@
+<dashboard version="1.1">
+	<label>Dashboard Overview</label>
+	<description>Dashboard with links to all other dashboards</description>
+	<row>
+		<panel>
+			<html>
+				<style>
+					.material-column {
+					width: 32%;
+					margin-right: 2%;
+					}
+					.material-column th {
+					background-color: #6200EA; /* Dark background for title */
+					color: #FFFFFF; /* White title font */
+					padding: 10px;
+					font-size: 20px;
+					}
+					.material-column td {
+					background-color: #FFFFFF; /* White background for links */
+					padding: 12px;
+					border-bottom: 1px solid #EEEEEE; /* Light divider */
+					}
+					.material-column a {
+					color: #6200EA; /* Dark color for links */
+					text-decoration: none;
+					display: block;
+					padding: 8px 0;
+					}
+					.material-column a:hover {
+					background-color: #03DAC6; /* Secondary Color on hover */
+					color: #000000; /* Text on hover */
+					}
+				</style>
+				<div style="display: flex; justify-content: space-between;">
+					<div class="material-column">
+						<table style="width: 100%;">
+							<thead>
+								<tr>
+									<th>Column 1</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><a href="dashboard_link_1" target="_blank">Dashboard 1</a></td>
+								</tr>
+								<tr>
+									<td><a href="dashboard_link_2" target="_blank">Dashboard 2</a></td>
+								</tr>
+								<!-- Add more links as needed -->
+							</tbody>
+						</table>
+					</div>
+					<div class="material-column">
+						<table style="width: 100%;">
+							<thead>
+								<tr>
+									<th>Column 2</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><a href="dashboard_link_3" target="_blank">Dashboard 3</a></td>
+								</tr>
+								<tr>
+									<td><a href="dashboard_link_4" target="_blank">Dashboard 4</a></td>
+								</tr>
+								<!-- Add more links as needed -->
+							</tbody>
+						</table>
+					</div>
+					<div class="material-column">
+						<table style="width: 100%;">
+							<thead>
+								<tr>
+									<th>Column 3</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><a href="dashboard_link_5" target="_blank">Dashboard 5</a></td>
+								</tr>
+								<tr>
+									<td><a href="dashboard_link_6" target="_blank">Dashboard 6</a></td>
+								</tr>
+								<!-- Add more links as needed -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</html>
+		</panel>
+	</row>
+</dashboard>
