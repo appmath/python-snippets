@@ -5,6 +5,10 @@
 		<panel>
 			<html>
 				<style>
+					body {
+					background-color: #000000; /* Black background */
+					color: #FFFFFF; /* Default text color */
+					}
 					.material-column {
 					width: 32%;
 					margin-right: 2%;
