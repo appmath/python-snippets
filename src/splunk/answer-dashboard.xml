@@ -17,7 +17,7 @@
 					background-color: #6200EA; /* Dark background for title */
 					}
 					.column2 th {
-					background-color: #007888; /* Darkened color */
+					background-color: #0096AA; /* Darkened color */
 					}
 					.column3 th {
 					background-color: #FF0266; /* Another different background for title */
