@@ -33,14 +33,14 @@
 					border-bottom: 1px solid #EEEEEE; /* Light divider */
 					}
 					.material-column a {
-					color: #6200EA; /* Dark color for links */
+					color: #0000EE; /* Standard HTML link color */
 					text-decoration: none;
 					display: block;
 					padding: 8px 0;
 					}
 					.material-column a:hover {
-					background-color: #03DAC6; /* Secondary Color on hover */
-					color: #000000; /* Text on hover */
+					background-color: #FFD700; /* Contrast hover color */
+					color: #000000; /* Text color on hover */
 					}
 				</style>
 				<div style="display: flex; justify-content: space-between;">
