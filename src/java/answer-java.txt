@@ -12,4 +12,20 @@
     <root level="ERROR">
         <appender-ref ref="LIST" />
     </root>
-</configuration>o
+</configuration>
+
+<configuration>
+    <appender name="LIST" class="ch.qos.logback.core.read.ListAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.your.package" level="DEBUG" additivity="false">
+        <appender-ref ref="LIST"/>
+    </logger>
+
+    <root level="ERROR">
+        <appender-ref ref="LIST"/>
+    </root>
+</configuration>
