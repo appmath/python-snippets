@@ -1,47 +1,54 @@
 <dashboard>
-    <label>Dynamic Time Analysis Dashboard</label>
-    <fieldset submitButton="false" autoRun="true">
-        <input type="time" token="TIME_PICKER">
-            <label>Time Picker</label>
-            <default>
-                <earliest>-24h</earliest>
-                <latest>now</latest>
-            </default>
-        </input>
-
-        <input type="hidden" token="TIME_BUCKET_SPAN">
-            <default>1h</default>
-            <change>
-                <condition match="'$TIME_PICKER.earliest$' >= '-24h@h' AND '$TIME_PICKER.latest$' <= 'now'">
-                    <set token="TIME_BUCKET_SPAN">1h</set>
-                </condition>
-                <condition match="'$TIME_PICKER.earliest$' < '-24h@h' OR '$TIME_PICKER.latest$' > 'now'">
-                    <set token="TIME_BUCKET_SPAN">1d</set>
-                </condition>
-            </change>
-        </input>
-    </fieldset>
-
+    <label>My Dashboard</label>
+    <stylesheet>
+        <![CDATA[
+            .vertical-stack {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+            .vertical-stack .panel {
+                margin-bottom: 10px;
+            }
+        ]]>
+    </stylesheet>
     <row>
+        <!-- Other panel in the same row -->
         <panel>
-            <search id="mainSearch">
-                <query>
-                    index="someindex" app_name=someappname MESSAGE="message"
-                    | dedup SOME_ID
-                    | bin _time span=$TIME_BUCKET_SPAN$
-                    | stats count by _time, MESSAGE
-                </query>
-                <option name="refresh.display">progressbar</option>
-            </search>
-
-            <!-- Visualization: Time Chart -->
             <chart>
-                <title>Message Count Over Time</title>
-                <search base="mainSearch">
-                    <query>| timechart span=$TIME_BUCKET_SPAN$ count by MESSAGE</query>
+                <title>My Chart</title>
+                <search>
+                    <query>your_search_query_for_chart</query>
                 </search>
-                <option name="charting.chart">line</option>
             </chart>
+        </panel>
+
+        <!-- Container for vertically stacked single panels -->
+        <panel>
+            <html>
+                <![CDATA[
+                    <div class="vertical-stack">
+                        <div class="panel">
+                            <single>
+                                <title>Single Panel 1</title>
+                                <search>
+                                    <query>your_search_query_1</query>
+                                </search>
+                                <option name="underLabel">Your Label 1</option>
+                            </single>
+                        </div>
+                        <div class="panel">
+                            <single>
+                                <title>Single Panel 2</title>
+                                <search>
+                                    <query>your_search_query_2</query>
+                                </search>
+                                <option name="underLabel">Your Label 2</option>
+                            </single>
+                        </div>
+                    </div>
+                ]]>
+            </html>
         </panel>
     </row>
 </dashboard>
