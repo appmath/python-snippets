@@ -1,7 +1,7 @@
 <dashboard version="1.1">
 	<label>Portal Dashboard</label>
 	<row>
-		<!-- Other panels (charts) in the same row, laid out horizontally -->
+		<!-- Chart panels laid out horizontally -->
 		<panel>
 			<chart>
 				<title>My Chart 1</title>
@@ -19,10 +19,10 @@
 			</chart>
 		</panel>
 
-		<!-- Container for vertically stacked single panels using HTML -->
+		<!-- Container panel for vertically stacked single panels -->
 		<panel>
 			<html>
-				<div style="display: flex; flex-direction: column; width: 100%;">
+				<div style="display: flex; flex-direction: column;">
 					<div style="margin-bottom: 10px;">
 						<single>
 							<title>Single Panel 1</title>
