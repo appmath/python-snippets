@@ -1,104 +1,67 @@
-<dashboard version="1.1">
-	<label>Dashboard Overview</label>
-	<description>Dashboard with links to all other dashboards</description>
+<dashboard>
+	<label>My Dashboard</label>
+	<stylesheet>
+		<![CDATA[
+            .vertical-stack {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+            .vertical-stack .panel {
+                margin-bottom: 10px;
+            }
+            .horizontal-stack {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                gap: 10px;
+            }
+        ]]>
+	</stylesheet>
 	<row>
+		<!-- Other panels (charts) in the same row, laid out horizontally -->
+		<panel>
+			<chart>
+				<title>My Chart 1</title>
+				<search>
+					<query>your_search_query_for_chart_1</query>
+				</search>
+			</chart>
+		</panel>
+		<panel>
+			<chart>
+				<title>My Chart 2</title>
+				<search>
+					<query>your_search_query_for_chart_2</query>
+				</search>
+			</chart>
+		</panel>
+
+		<!-- Container for vertically stacked single panels -->
 		<panel>
 			<html>
-				<style>
-					body {
-					background-color: #000000; /* Black background */
-					color: #FFFFFF; /* Default text color */
-					}
-					.material-column {
-					width: 32%;
-					margin-right: 2%;
-					}
-					.column1 th {
-					background-color: #673AB7; /* Dark background for title */
-					}
-					.column2 th {
-					background-color: #3F51B5; /* Different background for title */
-					}
-					.column3 th {
-					background-color: #0096AA; /* Another different background for title */
-					}
-					th {
-					color: #FFFFFF; /* White title font */
-					padding: 10px;
-					font-size: 20px;
-					}
-					.material-column td {
-					background-color: #FFFFFF; /* White background for links */
-					padding: 12px;
-					border-bottom: 1px solid #EEEEEE; /* Light divider */
-					}
-					.material-column a {
-					color: #0000EE; /* Standard HTML link color */
-					text-decoration: none;
-					display: block;
-					padding: 8px 0;
-					}
-					.material-column a:hover {
-					background-color: #FFEB3B; /* Softer yellow hover color */
-					color: #000000; /* Text color on hover */
-					}
-				</style>
-				<div style="display: flex; justify-content: space-between;">
-					<div class="material-column column1">
-						<table style="width: 100%;">
-							<thead>
-								<tr>
-									<th>Column 1</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><a href="dashboard_link_1" target="_blank">Dashboard 1</a></td>
-								</tr>
-								<tr>
-									<td><a href="dashboard_link_2" target="_blank">Dashboard 2</a></td>
-								</tr>
-								<!-- Add more links as needed -->
-							</tbody>
-						</table>
-					</div>
-					<div class="material-column column2">
-						<table style="width: 100%;">
-							<thead>
-								<tr>
-									<th>Column 2</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><a href="dashboard_link_3" target="_blank">Dashboard 3</a></td>
-								</tr>
-								<tr>
-									<td><a href="dashboard_link_4" target="_blank">Dashboard 4</a></td>
-								</tr>
-								<!-- Add more links as needed -->
-							</tbody>
-						</table>
-					</div>
-					<div class="material-column column3">
-						<table style="width: 100%;">
-							<thead>
-								<tr>
-									<th>Column 3</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><a href="dashboard_link_5" target="_blank">Dashboard 5</a></td>
-								</tr>
-								<tr>
-									<td><a href="dashboard_link_6" target="_blank">Dashboard 6</a></td>
-								</tr>
-								<!-- Add more links as needed -->
-							</tbody>
-						</table>
-					</div>
-				</div>
+				<![CDATA[
+                    <div class="vertical-stack">
+                        <div class="panel">
+                            <single>
+                                <title>Single Panel 1</title>
+                                <search>
+                                    <query>your_search_query_1</query>
+                                </search>
+                                <option name="underLabel">Your Label 1</option>
+                            </single>
+                        </div>
+                        <div class="panel">
+                            <single>
+                                <title>Single Panel 2</title>
+                                <search>
+                                    <query>your_search_query_2</query>
+                                </search>
+                                <option name="underLabel">Your Label 2</option>
+                            </single>
+                        </div>
+                    </div>
+                ]]>
 			</html>
 		</panel>
 	</row>
