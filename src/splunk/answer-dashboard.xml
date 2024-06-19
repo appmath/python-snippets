@@ -22,28 +22,26 @@
 		<!-- Container for vertically stacked single panels using HTML -->
 		<panel>
 			<html>
-				<![CDATA[
-          <div style="display: flex; flex-direction: column; width: 100%;">
-            <div style="margin-bottom: 10px;">
-              <single>
-                <title>Single Panel 1</title>
-                <search>
-                  <query>your_search_query_1</query>
-                </search>
-                <option name="underLabel">Your Label 1</option>
-              </single>
-            </div>
-            <div style="margin-bottom: 10px;">
-              <single>
-                <title>Single Panel 2</title>
-                <search>
-                  <query>your_search_query_2</query>
-                </search>
-                <option name="underLabel">Your Label 2</option>
-              </single>
-            </div>
-          </div>
-        ]]>
+				<div style="display: flex; flex-direction: column; width: 100%;">
+					<div style="margin-bottom: 10px;">
+						<single>
+							<title>Single Panel 1</title>
+							<search>
+								<query>your_search_query_1</query>
+							</search>
+							<option name="underLabel">Your Label 1</option>
+						</single>
+					</div>
+					<div style="margin-bottom: 10px;">
+						<single>
+							<title>Single Panel 2</title>
+							<search>
+								<query>your_search_query_2</query>
+							</search>
+							<option name="underLabel">Your Label 2</option>
+						</single>
+					</div>
+				</div>
 			</html>
 		</panel>
 	</row>
