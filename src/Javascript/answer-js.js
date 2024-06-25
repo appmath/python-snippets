@@ -1,34 +1,34 @@
-// utils/conversion.test.js
-import { convertToAbbreviation } from './conversion';
+// utils/urlChecker.js
+export function containsCoolSite(url) {
+    return url.includes('cool-site');
+}
 
-describe('ConversionUtil', () => {
-    test('Gets the correct key for text', () => {
-        const result = convertToAbbreviation('text');
-        expect(result).toBe('txt');
+// utils/urlChecker.test.js
+import { containsCoolSite } from './urlChecker';
+
+describe('URL Checker Utility', () => {
+    test('Returns true when the URL contains "cool-site"', () => {
+        const url = 'https://www.example.com/cool-site';
+        expect(containsCoolSite(url)).toBe(true);
     });
 
-    test('Gets the correct key for email', () => {
-        const result = convertToAbbreviation('email');
-        expect(result).toBe('em');
+    test('Returns false when the URL does not contain "cool-site"', () => {
+        const url = 'https://www.example.com/another-site';
+        expect(containsCoolSite(url)).toBe(false);
     });
 
-    test('Returns null for an unknown key', () => {
-        const result = convertToAbbreviation('unknown');
-        expect(result).toBeNull();
+    test('Returns false when the URL is empty', () => {
+        const url = '';
+        expect(containsCoolSite(url)).toBe(false);
     });
 
-    test('Returns null when input is null', () => {
-        const result = convertToAbbreviation(null);
-        expect(result).toBeNull();
+    test('Returns false when the URL is null', () => {
+        const url = null;
+        expect(containsCoolSite(url)).toBe(false);
     });
 
-    test('Returns null when input is undefined', () => {
-        const result = convertToAbbreviation(undefined);
-        expect(result).toBeNull();
-    });
-
-    test('Returns null for an empty string', () => {
-        const result = convertToAbbreviation('');
-        expect(result).toBeNull();
+    test('Returns false when the URL is undefined', () => {
+        const url = undefined;
+        expect(containsCoolSite(url)).toBe(false);
     });
 });
