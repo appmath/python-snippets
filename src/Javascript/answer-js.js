@@ -1,13 +1,34 @@
-function generateRandomEmail() {
-    const domains = ["example.com", "test.com", "sample.org"];
-    const usernameLength = Math.floor(Math.random() * (12 - 6 + 1)) + 6;
-    const username = Array.from({ length: usernameLength }, () =>
-        String.fromCharCode(Math.floor(Math.random() * 36) + (Math.random() < 0.5 ? 48 : 87))
-    ).join('');
-    const domain = domains[Math.floor(Math.random() * domains.length)];
-    return `${username}@${domain}`;
-}
+// utils/conversion.test.js
+import { convertToAbbreviation } from './conversion';
 
-// Generate a random email address
-const randomEmail = generateRandomEmail();
-console.log(randomEmail);
+describe('ConversionUtil', () => {
+    test('Gets the correct key for text', () => {
+        const result = convertToAbbreviation('text');
+        expect(result).toBe('txt');
+    });
+
+    test('Gets the correct key for email', () => {
+        const result = convertToAbbreviation('email');
+        expect(result).toBe('em');
+    });
+
+    test('Returns null for an unknown key', () => {
+        const result = convertToAbbreviation('unknown');
+        expect(result).toBeNull();
+    });
+
+    test('Returns null when input is null', () => {
+        const result = convertToAbbreviation(null);
+        expect(result).toBeNull();
+    });
+
+    test('Returns null when input is undefined', () => {
+        const result = convertToAbbreviation(undefined);
+        expect(result).toBeNull();
+    });
+
+    test('Returns null for an empty string', () => {
+        const result = convertToAbbreviation('');
+        expect(result).toBeNull();
+    });
+});
