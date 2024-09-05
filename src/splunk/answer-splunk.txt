@@ -1,54 +1,7 @@
-<dashboard>
-    <label>My Dashboard</label>
-    <stylesheet>
-        <![CDATA[
-            .vertical-stack {
-                display: flex;
-                flex-direction: column;
-                width: 100%;
-            }
-            .vertical-stack .panel {
-                margin-bottom: 10px;
-            }
-        ]]>
-    </stylesheet>
-    <row>
-        <!-- Other panel in the same row -->
-        <panel>
-            <chart>
-                <title>My Chart</title>
-                <search>
-                    <query>your_search_query_for_chart</query>
-                </search>
-            </chart>
-        </panel>
-
-        <!-- Container for vertically stacked single panels -->
-        <panel>
-            <html>
-                <![CDATA[
-                    <div class="vertical-stack">
-                        <div class="panel">
-                            <single>
-                                <title>Single Panel 1</title>
-                                <search>
-                                    <query>your_search_query_1</query>
-                                </search>
-                                <option name="underLabel">Your Label 1</option>
-                            </single>
-                        </div>
-                        <div class="panel">
-                            <single>
-                                <title>Single Panel 2</title>
-                                <search>
-                                    <query>your_search_query_2</query>
-                                </search>
-                                <option name="underLabel">Your Label 2</option>
-                            </single>
-                        </div>
-                    </div>
-                ]]>
-            </html>
-        </panel>
-    </row>
-</dashboard>
+index="someindex" app_name="some_app_name" MESSAGE="somemessage"
+| eval earliest_sec=strptime("$global_time.earliest$", "%Y-%m-%dT%H:%M:%S.%Q") 
+| eval latest_sec=strptime("$global_time.latest$", "%Y-%m-%dT%H:%M:%S.%Q")
+| eval duration_sec=latest_sec-earliest_sec
+| eval span=if(duration_sec <= 3600, "1m", "1h")
+| bin _time span=$span$
+| stats count by _time
